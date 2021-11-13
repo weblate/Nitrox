@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using NitroxClient.Unity.Helper;
 using NitroxModel.Packets;
@@ -9,7 +10,7 @@ namespace NitroxClient.Debuggers
 {
     public class NetworkDebugger : BaseDebugger, INetworkDebugger
     {
-        private const int PACKET_STORED_COUNT = 100;
+        private const int PACKET_STORED_COUNT = 1000000;
         private readonly Dictionary<Type, int> countByType = new Dictionary<Type, int>();
 
         private readonly List<string> filter = new List<string> { nameof(Movement), nameof(EntityTransformUpdates), nameof(PlayerStats), nameof(CellEntities), nameof(VehicleMovement) };
@@ -130,6 +131,11 @@ namespace NitroxClient.Debuggers
                     }
                 }
 
+                if (GUILayout.Button("Dump Data"))
+                {
+                    SaveNetworkData();
+                }
+
                 scrollPosition = GUILayout.BeginScrollView(scrollPosition, GUILayout.Height(300));
                 for (int i = 0; i < filter.Count; i++)
                 {
@@ -199,6 +205,20 @@ namespace NitroxClient.Debuggers
             else
             {
                 countByType.Add(packetType, 1);
+            }
+        }
+
+        private void SaveNetworkData()
+        {
+            WriteToBinaryFile(@"C:\Users\Jannify\Desktop\packetData\packetData(old).bin", packets.Select(wrapper => wrapper.Packet).ToArray(), false);
+        }
+
+        public static void WriteToBinaryFile<T>(string filePath, T objectToWrite, bool append = false)
+        {
+            using (Stream stream = File.Open(filePath, append ? FileMode.Append : FileMode.Create))
+            {
+                System.Runtime.Serialization.Formatters.Binary.BinaryFormatter binaryFormatter = new System.Runtime.Serialization.Formatters.Binary.BinaryFormatter();
+                binaryFormatter.Serialize(stream, objectToWrite);
             }
         }
 
