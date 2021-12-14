@@ -87,6 +87,7 @@
     <Compile Include="Discovery\InstallationFinders\EpicGamesInstallationFinder.cs" />
     <Compile Include="Discovery\InstallationFinders\GameInCurrentDirectoryFinder.cs" />
     <Compile Include="Discovery\InstallationFinders\SteamGameRegistryFinder.cs" />
+    <Compile Include="Discovery\InstallationFinders\TextFileGameFinder.cs" />
     <Compile Include="Discovery\Models\Platform.cs" />
     <Compile Include="Discovery\PlatformDetection.cs" />
     <Compile Include="Extensions.cs" />

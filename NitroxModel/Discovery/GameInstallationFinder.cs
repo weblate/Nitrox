@@ -19,6 +19,7 @@ namespace NitroxModel.Discovery
         ///     The order of these finders is VERY important. Only change if you know what you're doing.
         /// </summary>
         private readonly IFindGameInstallation[] finders = {
+            new TextFileGameFinder(),
             new GameInCurrentDirectoryFinder(),
             new ConfigGameFinder(),
             new SteamGameRegistryFinder(),
