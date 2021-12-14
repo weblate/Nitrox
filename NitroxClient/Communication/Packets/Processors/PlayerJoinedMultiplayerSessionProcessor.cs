@@ -8,6 +8,7 @@ using NitroxModel.DataStructures.GameLogic;
 using NitroxModel.Packets;
 using NitroxModel_Subnautica.DataStructures;
 using UnityEngine;
+using UWE;
 
 namespace NitroxClient.Communication.Packets.Processors
 {
@@ -37,7 +38,9 @@ namespace NitroxClient.Communication.Packets.Processors
                     continue;
                 }
 
-                Pickupable pickupable = item.GetComponent<Pickupable>().Initialize();
+                TaskResult<Pickupable> result = new TaskResult<Pickupable>();
+                CoroutineUtils.PumpCoroutine(item.GetComponent<Pickupable>().InitializeAsync(result));
+                Pickupable pickupable = result.Get();
                 pickupable.SetVisible(false);
                 items.Add(pickupable);
             }

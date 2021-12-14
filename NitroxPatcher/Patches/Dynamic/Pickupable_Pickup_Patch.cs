@@ -8,7 +8,7 @@ namespace NitroxPatcher.Patches.Dynamic
 {
     public class Pickupable_Pickup_Patch : NitroxPatch, IDynamicPatch
     {
-        public static readonly MethodInfo TARGET_METHOD = Reflect.Method((Pickupable p) => p.Pickup(default(bool)));
+        private static readonly MethodInfo TARGET_METHOD = Reflect.Method((Pickupable p) => p.PickupAsync(default, default));
 
         public static bool Prefix(Pickupable __instance)
         {

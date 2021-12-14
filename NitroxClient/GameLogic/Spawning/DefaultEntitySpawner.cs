@@ -1,4 +1,5 @@
 ﻿using NitroxClient.GameLogic.Spawning.Metadata;
+using NitroxClient.Helpers;
 using NitroxClient.MonoBehaviours;
 using NitroxModel.DataStructures.GameLogic;
 using NitroxModel.DataStructures.Util;
@@ -61,7 +62,10 @@ namespace NitroxClient.GameLogic.Spawning
 
             if (prefab == null)
             {
-                prefab = CraftData.GetPrefabForTechType(techType, false);
+                CoroutineTask<GameObject> request = CraftData.GetPrefabForTechTypeAsync(techType, false);
+                CoroutineUtils.PumpCoroutine(request);
+                prefab = request.GetResult();
+
                 if (prefab == null)
                 {
                     return Utils.CreateGenericLoot(techType);

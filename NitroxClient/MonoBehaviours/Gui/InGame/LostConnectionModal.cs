@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
@@ -19,7 +19,7 @@ namespace NitroxClient.MonoBehaviours.Gui.InGame
 
         public void Show()
         {
-            FreezeTime.Begin("NitroxDisconnected");
+            FreezeTime.Begin(FreezeTime.Id.HardcoreGameOver);
             StartCoroutine(Show_Impl());
         }
 

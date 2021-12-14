@@ -22,14 +22,14 @@ namespace NitroxClient.GameLogic.Bases.Spawning.BasePiece
         {
             NitroxId pieceId = NitroxEntity.GetId(finishedPiece);
 
-            WaterParkPiece waterParkPiece = finishedPiece.GetComponent<WaterParkPiece>();
-            if (!waterParkPiece)
+            WaterParkGeometry waterParkGeometry = finishedPiece.GetComponent<WaterParkGeometry>();
+            if (!waterParkGeometry)
             {
                 // The BaseWater has multiple base pieces, but only one of them (the bottom) contains the WaterParkPiece component...
                 return;
             }
 
-            WaterPark waterPark = waterParkPiece.GetWaterParkModule();
+            WaterPark waterPark = waterParkGeometry.GetModule();
             Validate.NotNull(waterPark, "WaterParkPiece without WaterParkModule?!?");
 
             // assuming there could be multiple pieces sharing the same waterpark we only create an ID if there is none.

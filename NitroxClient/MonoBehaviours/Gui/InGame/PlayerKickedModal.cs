@@ -19,7 +19,7 @@ namespace NitroxClient.MonoBehaviours.Gui.InGame
 
         public void Show(string reason)
         {
-            FreezeTime.Begin("NitroxDisconnected");
+            FreezeTime.Begin(FreezeTime.Id.HardcoreGameOver);
             StartCoroutine(Show_Impl(reason));
         }
 

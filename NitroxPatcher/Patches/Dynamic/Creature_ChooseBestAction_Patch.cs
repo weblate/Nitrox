@@ -10,7 +10,7 @@ namespace NitroxPatcher.Patches.Dynamic
 {
     public class Creature_ChooseBestAction_Patch : NitroxPatch, IDynamicPatch
     {
-        public static readonly MethodInfo TARGET_METHOD = Reflect.Method((Creature t) => t.ChooseBestAction());
+        public static readonly MethodInfo TARGET_METHOD = Reflect.Method((Creature t) => t.ChooseBestAction(default));
 
         private static CreatureAction previousAction;
 
@@ -44,7 +44,7 @@ namespace NitroxPatcher.Patches.Dynamic
 
         public override void Patch(Harmony harmony)
         {
-            PatchMultiple(harmony, TARGET_METHOD, prefix:true, postfix:true);
+            PatchMultiple(harmony, TARGET_METHOD, prefix: true, postfix: true);
         }
     }
 }

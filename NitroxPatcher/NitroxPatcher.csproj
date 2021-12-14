@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -72,7 +72,6 @@
     <Compile Include="Patches\Dynamic\CyclopsSonarButton_SonarPing_Patch.cs" />
     <Compile Include="Patches\Dynamic\DayNightCycle_OnConsoleCommand_day_Patch.cs" />
     <Compile Include="Patches\Dynamic\DayNightCycle_OnConsoleCommand_night_Patch.cs" />
-    <Compile Include="Patches\Dynamic\DevConsole_Update_Patch.cs" />
     <Compile Include="Patches\Dynamic\DockedVehicleHandTarget_OnHandClick_Patch.cs" />
     <Compile Include="Patches\Dynamic\EnergyMixin_ModifyCharge_Patch.cs" />
     <Compile Include="Patches\Dynamic\EnergyMixin_OnAddItem_Patch.cs" />

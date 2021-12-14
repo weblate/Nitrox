@@ -94,7 +94,7 @@ namespace NitroxClient.MonoBehaviours
                 {
                     if (techType == TechType.Seamoth)
                     {
-                        bool flag = vehicle.transform.position.y < Ocean.main.GetOceanLevel() && vehicle.transform.position.y < vehicle.worldForces.waterDepth && !vehicle.precursorOutOfWater;
+                        bool flag = vehicle.transform.position.y < Ocean.GetOceanLevel() && vehicle.transform.position.y < vehicle.worldForces.waterDepth && !vehicle.precursorOutOfWater;
                         appliedThrottle = flag && GameInput.GetMoveDirection().sqrMagnitude > .1f;
                     }
                     else if (techType == TechType.Exosuit)

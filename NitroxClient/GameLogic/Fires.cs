@@ -2,6 +2,7 @@
 using NitroxClient.Communication.Abstract;
 using NitroxClient.MonoBehaviours;
 using NitroxModel.DataStructures;
+using NitroxModel.DataStructures.Util;
 using NitroxModel.Packets;
 using NitroxModel_Subnautica.DataStructures.GameLogic;
 using NitroxModel_Subnautica.Packets;
@@ -12,7 +13,7 @@ namespace NitroxClient.GameLogic
     /// <summary>
     /// Handles all of the <see cref="Fire"/>s in the game. Currently, the only known Fire spawning is in <see cref="SubFire.CreateFire(SubFire.RoomFire)"/>. The
     /// fires in the Aurora come loaded with the map and do not grow in size. If we want to create a Fire spawning mechanic outside of Cyclops fires, it should be
-    /// added to <see cref="Fires.Create(string, Optional{string}, Optional{CyclopsRooms}, Optional{int})"/>. Fire dousing goes by Id and does not need to be 
+    /// added to <see cref="Fires.Create(string, Optional, Optional{CyclopsRooms}, Optional{int})"/>. Fire dousing goes by Id and does not need to be 
     /// modified
     /// </summary>
     public class Fires
@@ -96,10 +97,7 @@ namespace NitroxClient.GameLogic
 
                 if (NitroxEntity.GetId(existingFire.gameObject) != fireData.CyclopsId)
                 {
-                    Log.Error("[Fires.Create Fire already exists at node index " + fireData.NodeIndex
-                        + "! Replacing existing Fire Id " + NitroxEntity.GetId(existingFire.gameObject)
-                        + " with Id " + fireData.CyclopsId
-                        + "]");
+                    Log.Error($"[Fires.Create Fire already exists at node index {fireData.NodeIndex}! Replacing existing Fire Id {NitroxEntity.GetId(existingFire.gameObject)} with Id {fireData.CyclopsId}]");
 
                     NitroxEntity.SetNewId(existingFire.gameObject, fireData.CyclopsId);
                 }
@@ -124,23 +122,21 @@ namespace NitroxClient.GameLogic
             }
             else
             {
-                Log.Error("[FireCreatedProcessor Cannot create new Cyclops fire! PrefabSpawn component could not be found in fire node!"
-                    + " Fire Id: " + fireData.FireId
-                    + " SubRoot Id: " + fireData.CyclopsId
-                    + " Room: " + fireData.Room
-                    + " NodeIndex: " + fireData.NodeIndex
-                    + "]");
-            }
-            GameObject gameObject = component.SpawnManual();
-            Fire componentInChildren = gameObject.GetComponentInChildren<Fire>();
-            if (componentInChildren)
-            {
-                componentInChildren.fireSubRoot = subFire.subRoot;
-                NitroxEntity.SetNewId(componentInChildren.gameObject, fireData.FireId);
+                Log.Error($"[FireCreatedProcessor Cannot create new Cyclops fire! PrefabSpawn component could not be found in fire node! Fire Id: {fireData.FireId} SubRoot Id: {fireData.CyclopsId} Room: {fireData.Room} NodeIndex: {fireData.NodeIndex}]");
             }
 
-            subFire.roomFires = roomFiresDict;
-            subFire.availableNodes = availableNodes;
+            component.SpawnManual(gameObject =>
+            {
+                Fire componentInChildren = gameObject.GetComponentInChildren<Fire>();
+                if (componentInChildren)
+                {
+                    componentInChildren.fireSubRoot = subFire.subRoot;
+                    NitroxEntity.SetNewId(componentInChildren.gameObject, fireData.FireId);
+                }
+
+                subFire.roomFires = roomFiresDict;
+                subFire.availableNodes = availableNodes;
+            });
         }
     }
 }

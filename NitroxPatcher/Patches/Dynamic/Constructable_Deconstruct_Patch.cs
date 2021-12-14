@@ -8,11 +8,11 @@ namespace NitroxPatcher.Patches.Dynamic
 {
     public class Constructable_Deconstruct_Patch : NitroxPatch, IDynamicPatch
     {
-        public static readonly MethodInfo TARGET_METHOD = Reflect.Method((Constructable t) => t.Deconstruct());
+        private static readonly MethodInfo TARGET_METHOD = Reflect.Method((Constructable t) => t.DeconstructAsync(default));
 
-        public static void Postfix(Constructable __instance, bool __result)
+        public static void Postfix(Constructable __instance, TaskResult<bool> __result)
         {
-            if (__result && __instance.constructedAmount <= 0f)
+            if (__result.Get() && __instance.constructedAmount <= 0f)
             {
                 NitroxServiceLocator.LocateService<Building>().DeconstructionComplete(__instance.gameObject);
             }

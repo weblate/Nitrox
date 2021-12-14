@@ -143,7 +143,7 @@ namespace NitroxClient.GameLogic
             {
                 EnergyMixin mixin = opEnergy.Value;
                 mixin.allowedToPlaySounds = false;
-                mixin.SetBattery(mixin.defaultBattery, 1);
+                mixin.SetBatteryAsync(mixin.defaultBattery, 1, new TaskResult<InventoryItem>());
                 mixin.allowedToPlaySounds = true;
             }
 
@@ -159,7 +159,7 @@ namespace NitroxClient.GameLogic
                     {
                         EnergyMixin mixin = opEnergyMixin.Value;
                         mixin.allowedToPlaySounds = false;
-                        mixin.SetBattery(mixin.defaultBattery, 1);
+                        mixin.SetBatteryAsync(mixin.defaultBattery, 1, new TaskResult<InventoryItem>());
                         mixin.allowedToPlaySounds = true;
                     }
                 }
@@ -169,28 +169,32 @@ namespace NitroxClient.GameLogic
         public void CreateVehicle(VehicleModel vehicleModel)
         {
             AddVehicle(vehicleModel);
-            CreateVehicle(vehicleModel.TechType.ToUnity(), vehicleModel.Id, vehicleModel.Position.ToUnity(), vehicleModel.Rotation.ToUnity(), vehicleModel.InteractiveChildIdentifiers, vehicleModel.DockingBayId, vehicleModel.Name, vehicleModel.HSB.ToUnity(), vehicleModel.Health);
-        }
-
-        public void CreateVehicle(TechType techType, NitroxId id, Vector3 position, Quaternion rotation, IEnumerable<InteractiveChildObjectIdentifier> interactiveChildIdentifiers, Optional<NitroxId> dockingBayId, string name, Vector3[] hsb, float health)
-        {
             try
             {
-                if (techType == TechType.Cyclops)
-                {
-                    LightmappedPrefabs.main.RequestScenePrefab("cyclops", (go) => OnVehiclePrefabLoaded(techType, go, id, position, rotation, interactiveChildIdentifiers, dockingBayId, name, hsb, health));
-                }
-                else
-                {
-                    GameObject techPrefab = CraftData.GetPrefabForTechType(techType, false);
-                    Validate.NotNull(techPrefab, $"{nameof(Vehicles)}: No prefab for tech type: {techType}");
-
-                    OnVehiclePrefabLoaded(techType, techPrefab, id, position, rotation, interactiveChildIdentifiers, dockingBayId, name, hsb, health);
-                }
+                Player.main.StartCoroutine(CreateVehicle(vehicleModel.TechType.ToUnity(), vehicleModel.Id, vehicleModel.Position.ToUnity(), vehicleModel.Rotation.ToUnity(), vehicleModel.InteractiveChildIdentifiers, vehicleModel.DockingBayId, vehicleModel.Name, vehicleModel.HSB.ToUnity(), vehicleModel.Health));
             }
             catch (Exception ex)
             {
-                Log.Error(ex, $"{nameof(Vehicles)}: Error while creating a vehicle. TechType: {techType} Id: {id}");
+                Log.Error(ex, $"{nameof(Vehicles)}: Error while creating a vehicle. TechType: {vehicleModel.TechType} Id: {vehicleModel.Id}");
+            }
+        }
+
+        private IEnumerator CreateVehicle(TechType techType, NitroxId id, Vector3 position, Quaternion rotation, IEnumerable<InteractiveChildObjectIdentifier> interactiveChildIdentifiers, Optional<NitroxId> dockingBayId, string name, Vector3[] hsb, float health)
+        {
+
+            if (techType == TechType.Cyclops)
+            {
+                LightmappedPrefabs.main.RequestScenePrefab("cyclops", (go) => OnVehiclePrefabLoaded(techType, go, id, position, rotation, interactiveChildIdentifiers, dockingBayId, name, hsb, health));
+            }
+            else
+            {
+                CoroutineTask<GameObject> request = CraftData.GetPrefabForTechTypeAsync(techType, false);
+                yield return request;
+                GameObject techPrefab = request.GetResult();
+
+                Validate.NotNull(techPrefab, $"{nameof(Vehicles)}: No prefab for tech type: {techType}");
+
+                OnVehiclePrefabLoaded(techType, techPrefab, id, position, rotation, interactiveChildIdentifiers, dockingBayId, name, hsb, health);
             }
         }
 

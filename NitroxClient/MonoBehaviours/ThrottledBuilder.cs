@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using NitroxClient.Communication.Abstract;
 using NitroxClient.GameLogic.Bases;
 using NitroxClient.GameLogic.Bases.Spawning.BasePiece;
@@ -95,7 +96,7 @@ namespace NitroxClient.MonoBehaviours
             {
                 if (buildEvent is BasePiecePlacedEvent)
                 {
-                    PlaceBasePiece((BasePiecePlacedEvent)buildEvent);
+                    StartCoroutine(PlaceBasePiece((BasePiecePlacedEvent)buildEvent));
                 }
                 else if (buildEvent is ConstructionCompletedEvent)
                 {
@@ -116,12 +117,16 @@ namespace NitroxClient.MonoBehaviours
             }
         }
 
-        private void PlaceBasePiece(BasePiecePlacedEvent basePiecePlacedBuildEvent)
+        private IEnumerator PlaceBasePiece(BasePiecePlacedEvent basePiecePlacedBuildEvent)
         {
             Log.Debug($"BuildBasePiece - {basePiecePlacedBuildEvent.BasePiece.Id} type: {basePiecePlacedBuildEvent.BasePiece.TechType} parentId: {basePiecePlacedBuildEvent.BasePiece.ParentId.OrElse(null)}");
 
             BasePiece basePiece = basePiecePlacedBuildEvent.BasePiece;
-            GameObject buildPrefab = CraftData.GetBuildPrefab(basePiece.TechType.ToUnity());
+
+            CoroutineTask<GameObject> request = CraftData.GetBuildPrefabAsync(basePiece.TechType.ToUnity());
+            yield return request;
+            GameObject buildPrefab = request.GetResult();
+
             MultiplayerBuilder.overridePosition = basePiece.ItemPosition.ToUnity();
             MultiplayerBuilder.overrideQuaternion = basePiece.Rotation.ToUnity();
             MultiplayerBuilder.overrideTransform = new GameObject().transform;

@@ -4,9 +4,9 @@ using NitroxModel.Helper;
 
 namespace NitroxPatcher.Patches.Dynamic
 {
-    class EnergyMixin_SpawnDefault_Patch : NitroxPatch, IDynamicPatch
+    public class EnergyMixin_SpawnDefault_Patch : NitroxPatch, IDynamicPatch
     {
-        public static readonly MethodInfo TARGET_METHOD = Reflect.Method((EnergyMixin t) => t.SpawnDefault(default(float)));
+        private static readonly MethodInfo TARGET_METHOD = Reflect.Method((EnergyMixin t) => t.SpawnDefaultAsync(default, default));
 
         public static bool Prefix(EnergyMixin __instance)
         {

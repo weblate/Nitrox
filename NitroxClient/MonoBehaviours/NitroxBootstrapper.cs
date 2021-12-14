@@ -13,19 +13,19 @@ namespace NitroxClient.MonoBehaviours
             gameObject.AddComponent<SceneCleanerPreserve>();
             gameObject.AddComponent<MainMenuMods>();
 
+            Application.runInBackground = true;
+            Log.Info($"Unity run in background set to \"{Application.runInBackground}\"");
+
 #if DEBUG
             EnableDeveloperFeatures();
-#endif
-
             CreateDebugger();
+#endif
         }
 
         private void EnableDeveloperFeatures()
         {
-            Log.Info("Enabling developer console.");
-            DevConsole.disableConsole = false;
-            Application.runInBackground = true;
-            Log.Info($"Unity run in background set to \"{Application.runInBackground}\"");
+            Log.Info("Enabling developer tools.");
+            PlatformUtils.SetDevToolsEnabled(true);
         }
 
         private void CreateDebugger()

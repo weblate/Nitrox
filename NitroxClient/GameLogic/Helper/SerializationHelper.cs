@@ -1,6 +1,7 @@
 ﻿using System.IO;
 using System.Reflection;
 using UnityEngine;
+using UWE;
 
 namespace NitroxClient.GameLogic.Helper
 {
@@ -36,7 +37,9 @@ namespace NitroxClient.GameLogic.Helper
 
             using (MemoryStream memoryStream = new MemoryStream(bytes))
             {
-                gameObject = Serializer.DeserializeObjectTree(memoryStream, 0);
+                CoroutineTask<GameObject> request = Serializer.DeserializeObjectTreeAsync(memoryStream, false, false, 0);
+                CoroutineUtils.PumpCoroutine(request);
+                gameObject = request.GetResult();
             }
 
             BLOCK_HAND_PLACED_DESERIALIZATION = true;
