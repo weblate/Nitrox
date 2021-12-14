@@ -6,15 +6,58 @@
     </PropertyGroup>
     
     <Choose>
+        <When Condition="'$(UnityModLibrary)' == 'true' and '$(TestLibrary)' != 'true'">
+            <ItemGroup>
+                <Reference Include="Assembly-CSharp">
+                    <HintPath>$(BuildGenDllDir)\Assembly-CSharp.dll</HintPath>
+                    <Private>$(TestLibrary)</Private>
+                </Reference>
+                <Reference Include="Assembly-CSharp-firstpass">
+                    <HintPath>$(BuildGenDllDir)\Assembly-CSharp-firstpass.dll</HintPath>
+                    <Private>$(TestLibrary)</Private>
+                </Reference>
+            </ItemGroup>
+        </When>
+        <When Condition="'$(TestLibrary)' == 'true'">
+            <ItemGroup>
+                <Reference Include="Assembly-CSharp">
+                    <HintPath>$(GameManagedDir)\Assembly-CSharp.dll</HintPath>
+                    <Private>$(TestLibrary)</Private>
+                </Reference>
+                <Reference Include="Assembly-CSharp-firstpass">
+                    <HintPath>$(GameManagedDir)\Assembly-CSharp-firstpass.dll</HintPath>
+                    <Private>$(TestLibrary)</Private>
+                </Reference>
+            </ItemGroup>
+        </When>
+    </Choose>
+    
+    <Choose>
         <When Condition="'$(UnityModLibrary)' == 'true' or '$(TestLibrary)' == 'true'">
             <!-- UnityEngine libraries to include -->
             <ItemGroup>
-                <Reference Include="Unity.Timeline">
-                    <HintPath>$(GameManagedDir)\Unity.Timeline.dll</HintPath>
+                <Reference Include="Unity.Addressables">
+                    <HintPath>$(GameManagedDir)\Unity.Addressables.dll</HintPath>
                     <Private>$(TestLibrary)</Private>
                 </Reference>
-                <Reference Include="UnityEngine">
-                    <HintPath>$(GameManagedDir)\UnityEngine.dll</HintPath>
+                <Reference Include="Unity.Collections">
+                    <HintPath>$(GameManagedDir)\Unity.Collections.dll</HintPath>
+                    <Private>$(TestLibrary)</Private>
+                </Reference>
+                <Reference Include="Unity.Mathematics">
+                    <HintPath>$(GameManagedDir)\Unity.Mathematics.dll</HintPath>
+                    <Private>$(TestLibrary)</Private>
+                </Reference>
+                <Reference Include="Unity.Recorder">
+                    <HintPath>$(GameManagedDir)\Unity.Recorder.dll</HintPath>
+                    <Private>$(TestLibrary)</Private>
+                </Reference>
+                <Reference Include="Unity.ResourceManager">
+                    <HintPath>$(GameManagedDir)\Unity.ResourceManager.dll</HintPath>
+                    <Private>$(TestLibrary)</Private>
+                </Reference>
+                <Reference Include="Unity.Timeline">
+                    <HintPath>$(GameManagedDir)\Unity.Timeline.dll</HintPath>
                     <Private>$(TestLibrary)</Private>
                 </Reference>
                 <Reference Include="UnityEngine.AccessibilityModule">
@@ -69,12 +112,12 @@
                     <HintPath>$(GameManagedDir)\UnityEngine.DirectorModule.dll</HintPath>
                     <Private>$(TestLibrary)</Private>
                 </Reference>
-                <Reference Include="UnityEngine.DSPGraphModule">
-                    <HintPath>$(GameManagedDir)\UnityEngine.DSPGraphModule.dll</HintPath>
+                <Reference Include="UnityEngine">
+                    <HintPath>$(GameManagedDir)\UnityEngine.dll</HintPath>
                     <Private>$(TestLibrary)</Private>
                 </Reference>
-                <Reference Include="UnityEngine.FileSystemHttpModule">
-                    <HintPath>$(GameManagedDir)\UnityEngine.FileSystemHttpModule.dll</HintPath>
+                <Reference Include="UnityEngine.DSPGraphModule">
+                    <HintPath>$(GameManagedDir)\UnityEngine.DSPGraphModule.dll</HintPath>
                     <Private>$(TestLibrary)</Private>
                 </Reference>
                 <Reference Include="UnityEngine.GameCenterModule">
@@ -155,6 +198,10 @@
                 </Reference>
                 <Reference Include="UnityEngine.SubstanceModule">
                     <HintPath>$(GameManagedDir)\UnityEngine.SubstanceModule.dll</HintPath>
+                    <Private>$(TestLibrary)</Private>
+                </Reference>
+                <Reference Include="UnityEngine.SubsystemsModule">
+                    <HintPath>$(GameManagedDir)\UnityEngine.SubsystemsModule.dll</HintPath>
                     <Private>$(TestLibrary)</Private>
                 </Reference>
                 <Reference Include="UnityEngine.TerrainModule">
@@ -255,33 +302,6 @@
                 </Reference>
                 <Reference Include="UnityEngine.XRModule">
                     <HintPath>$(GameManagedDir)\UnityEngine.XRModule.dll</HintPath>
-                    <Private>$(TestLibrary)</Private>
-                </Reference>
-            </ItemGroup>
-        </When>
-    </Choose>
-
-    <Choose>
-        <When Condition="'$(UnityModLibrary)' == 'true' and '$(TestLibrary)' != 'true'">
-            <ItemGroup>
-                <Reference Include="Assembly-CSharp">
-                    <HintPath>$(BuildGenDllDir)\Assembly-CSharp.dll</HintPath>
-                    <Private>$(TestLibrary)</Private>
-                </Reference>
-                <Reference Include="Assembly-CSharp-firstpass">
-                    <HintPath>$(BuildGenDllDir)\Assembly-CSharp-firstpass.dll</HintPath>
-                    <Private>$(TestLibrary)</Private>
-                </Reference>
-            </ItemGroup>
-        </When>
-        <When Condition="'$(TestLibrary)' == 'true'">
-            <ItemGroup>
-                <Reference Include="Assembly-CSharp">
-                    <HintPath>$(GameManagedDir)\Assembly-CSharp.dll</HintPath>
-                    <Private>$(TestLibrary)</Private>
-                </Reference>
-                <Reference Include="Assembly-CSharp-firstpass">
-                    <HintPath>$(GameManagedDir)\Assembly-CSharp-firstpass.dll</HintPath>
                     <Private>$(TestLibrary)</Private>
                 </Reference>
             </ItemGroup>
