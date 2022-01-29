@@ -98,12 +98,12 @@ namespace NitroxClient.Unity.Helper
 
         public static string GetFullHierarchyPath(this Component component)
         {
-            return component ? $"{component.name}.{component.gameObject.GetFullHierarchyPath()}" : "";
+            return component ? $"{component.gameObject.GetFullHierarchyPath()} -> {component.GetType().Name}.cs" : "";
         }
 
         public static string GetHierarchyPath(this GameObject go, GameObject end)
         {
-            if (!go)
+            if (!go || go == end)
             {
                 return "";
             }
@@ -113,15 +113,15 @@ namespace NitroxClient.Unity.Helper
                 return go.name;
             }
 
-            string fullHierarchyPath = go.name;
+            StringBuilder sb = new(go.name);
             for (GameObject gameObject = go.transform.parent.gameObject;
-                 gameObject || gameObject == end;
+                 gameObject && gameObject != end;
                  gameObject = gameObject.transform.parent ? gameObject.transform.parent.gameObject : null)
             {
-                fullHierarchyPath = gameObject.name + "/" + fullHierarchyPath;
+                sb.Insert(0, $"{gameObject.name}/");
             }
 
-            return fullHierarchyPath;
+            return sb.ToString();
         }
     }
 }
