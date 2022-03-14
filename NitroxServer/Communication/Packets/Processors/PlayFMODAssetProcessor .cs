@@ -1,30 +1,29 @@
 ﻿using NitroxModel.DataStructures.Unity;
+using NitroxModel.Helper;
 using NitroxModel.Packets;
 using NitroxServer.Communication.Packets.Processors.Abstract;
 using NitroxServer.GameLogic;
 
-namespace NitroxServer.Communication.Packets.Processors
+namespace NitroxServer.Communication.Packets.Processors;
+
+public class PlayFMODAssetProcessor : AuthenticatedPacketProcessor<PlayFMODAsset>
 {
-    public class PlayFMODAssetProcessor : AuthenticatedPacketProcessor<PlayFMODAsset>
+    private readonly PlayerManager playerManager;
+
+    public PlayFMODAssetProcessor(PlayerManager playerManager)
     {
-        private readonly PlayerManager playerManager;
+        this.playerManager = playerManager;
+    }
 
-        public PlayFMODAssetProcessor(PlayerManager playerManager)
+    public override void Process(PlayFMODAsset packet, Player sendingPlayer)
+    {
+        foreach (Player player in playerManager.GetConnectedPlayers())
         {
-            this.playerManager = playerManager;
-        }
-
-        public override void Process(PlayFMODAsset packet, Player sendingPlayer)
-        {
-            Log.Debug("[PlayFMODAssetProcessor] - " + packet);
-            foreach (Player player in playerManager.GetConnectedPlayers())
+            float distance = NitroxVector3.Distance(player.Position, packet.Position);
+            if (player != sendingPlayer && (packet.IsGlobal || player.SubRootId.Equals(sendingPlayer.SubRootId)) && distance <= packet.Radius)
             {
-                float distance = NitroxVector3.Distance(player.Position, packet.Position);
-                if (player != sendingPlayer && (packet.IsGlobal || player.SubRootId.Equals(sendingPlayer.SubRootId)) && distance <= packet.Radius)
-                {
-                    packet.Volume -= (1 - distance / packet.Radius) * packet.Volume; // Non realistic volume calculation but enough for us
-                    player.SendPacket(packet);
-                }
+                packet.Volume = SoundHelper.CalculateVolume(distance, packet.Radius, packet.Volume);
+                player.SendPacket(packet);
             }
         }
     }
