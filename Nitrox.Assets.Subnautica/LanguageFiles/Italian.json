@@ -1,5 +1,5 @@
 {
-    "Nitrox_Multiplayer": "Multiplayer",
+    "Nitrox_Multiplayer": "Multigiocatore",
     "Nitrox_AddServer": "Aggiungi un server",
     "Nitrox_ConnectTo": "Connettiti a",
     "Nitrox_AddServerName": "Nome:",
@@ -15,9 +15,9 @@
     "Nitrox_PlayerColor": "Colore giocatore",
     "Nitrox_EnterName": "Nome giocatore",
     "Nitrox_SubmitPassword": "Conferma",
-    "Nitrox_MultiplayerLoaded": "Client Multiplayer caricato…",
-    "Nitrox_StreamerSettings": "Modalità Streamer",
-    "Nitrox_SilenceChat": "Disattiva la chat",
+    "Nitrox_MultiplayerLoaded": "Client multigiocatore caricato…",
+    "Nitrox_StreamerSettings": "Modalità streamer",
+    "Nitrox_SilenceChat": "Disattiva la discussione",
     "Nitrox_HideIp": "Nascondere gli indirizzi IP",
     "Nitrox_LoadingScreenWarn": "Aspettati problemi che potrebbero compromettere l'esperienza di gioco",
     "Nitrox_WorldSettling": "Caricamento mondo di gioco",
@@ -25,7 +25,7 @@
     "Nitrox_SyncingWorld": "Sincronizzazione mondo di gioco",
     "Nitrox_LostConnection": "Connessione al server persa",
     "Nitrox_PlayerKicked": "Sei stato espulso dal server",
-    "Nitrox_UnableToConnect": "Impossibile contattare il server",
+    "Nitrox_UnableToConnect": "Impossibile contattare il server:",
     "Nitrox_StartServer": "Per entrare nel tuo server locale devi prima avviarlo da Nitrox Launcher",
     "Nitrox_FirewallInterfering": "Sembrerebbe che il firewall stia interferendo",
     "Nitrox_InvalidUserName": "Per favore inserisce un nome valido!\n\n Non può contenere spazi o caratteri ambigui\n Caratteri consentiti : A-Z a-z 0-9 _ . -\nLunghezza : [3, 25]",
@@ -37,5 +37,11 @@
     "Nitrox_WaitingUserInput": "In attesa dell'inserimento dal parte dell'utente…",
     "Nitrox_LaunchGame": "Caricamento…",
     "Nitrox_SilencedChatNotif": "La chat è ora silenziata",
-    "Nitrox_CommandNotAvailable": "Questo comando non è disponibile con Nitrox"
+    "Nitrox_CommandNotAvailable": "Questo comando non è disponibile con Nitrox",
+    "Nitrox_DiscordDecline": "Rifiuta",
+    "Nitrox_DiscordAccept": "Accetta",
+    "Nitrox_LostConnectionWarn": "Non più connesso al server",
+    "Nitrox_ServerStopped": "Server fermato",
+    "Nitrox_DiscordPressToFocus": "Premi per sbloccare",
+    "Nitrox_DiscordRequestText": "Ha richiesto di partecipare alla tua sessione"
 }
